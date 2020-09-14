@@ -84,13 +84,8 @@ macro(rocm_create_package)
     file(WRITE ${PROJECT_BINARY_DIR}/debian/postinst "")
     file(WRITE ${PROJECT_BINARY_DIR}/debian/prerm "")
 
-#   file(WRITE ${CMAKE_BINARY_DIR}/temp/postinst "")
-#   file(WRITE ${CMAKE_BINARY_DIR}/temp/prerm "")
-
-#   file (COPY ${CMAKE_BINARY_DIR}/temp/postinst DESTINATION ${PROJECT_BINARY_DIR}/debian FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-#   file (COPY ${CMAKE_BINARY_DIR}/temp/prerm DESTINATION ${PROJECT_BINARY_DIR}/debian FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-
-#   file(REMOVE_RECURSIVE ${CMAKE_BINARY_DIR}/tmp/)
+    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/postinst")
+    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/prerm")
 
     set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${PROJECT_BINARY_DIR}/debian/postinst;${PROJECT_BINARY_DIR}/debian/prerm")
     set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE "${PROJECT_BINARY_DIR}/debian/postinst")
@@ -126,9 +121,6 @@ macro(rocm_create_package)
         endforeach()
     endif()
     include(CPack)
-
-    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/postinst")
-    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/prerm")
 
 endmacro()
 
