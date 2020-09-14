@@ -81,16 +81,16 @@ macro(rocm_create_package)
         set(LIB_DIR ${CMAKE_INSTALL_PREFIX}/${PARSE_PREFIX}/${CMAKE_INSTALL_LIBDIR})
     endif()
 
-#   file(WRITE ${PROJECT_BINARY_DIR}/debian/postinst "")
-#   file(WRITE ${PROJECT_BINARY_DIR}/debian/prerm "")
+    file(WRITE ${PROJECT_BINARY_DIR}/debian/postinst "")
+    file(WRITE ${PROJECT_BINARY_DIR}/debian/prerm "")
 
-    file(WRITE ${CMAKE_BINARY_DIR}/temp/postinst "")
-    file(WRITE ${CMAKE_BINARY_DIR}/temp/prerm "")
+#   file(WRITE ${CMAKE_BINARY_DIR}/temp/postinst "")
+#   file(WRITE ${CMAKE_BINARY_DIR}/temp/prerm "")
 
-    file (COPY ${CMAKE_BINARY_DIR}/temp/postinst DESTINATION ${PROJECT_BINARY_DIR}/debian FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-    file (COPY ${CMAKE_BINARY_DIR}/temp/prerm DESTINATION ${PROJECT_BINARY_DIR}/debian FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+#   file (COPY ${CMAKE_BINARY_DIR}/temp/postinst DESTINATION ${PROJECT_BINARY_DIR}/debian FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+#   file (COPY ${CMAKE_BINARY_DIR}/temp/prerm DESTINATION ${PROJECT_BINARY_DIR}/debian FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 
-    file(REMOVE_RECURSIVE ${CMAKE_BINARY_DIR}/tmp/)
+#   file(REMOVE_RECURSIVE ${CMAKE_BINARY_DIR}/tmp/)
 
     set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${PROJECT_BINARY_DIR}/debian/postinst;${PROJECT_BINARY_DIR}/debian/prerm")
     set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE "${PROJECT_BINARY_DIR}/debian/postinst")
@@ -112,9 +112,6 @@ macro(rocm_create_package)
         ")
     endif()
 
-    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/postinst")
-    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/prerm")
-
     if(PARSE_PTH)
         set(PYTHON_SITE_PACKAGES "/usr/lib/python3/dist-packages;/usr/lib/python2.7/dist-packages" CACHE STRING "The site packages used for packaging")
         foreach(PYTHON_SITE ${PYTHON_SITE_PACKAGES})
@@ -129,6 +126,10 @@ macro(rocm_create_package)
         endforeach()
     endif()
     include(CPack)
+
+    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/postinst")
+    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/prerm")
+
 endmacro()
 
 function (rocm_set_os_id OS_ID)
