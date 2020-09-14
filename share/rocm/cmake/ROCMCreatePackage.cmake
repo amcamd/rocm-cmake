@@ -112,6 +112,9 @@ macro(rocm_create_package)
         ")
     endif()
 
+    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/postinst")
+    execute_process(COMMAND "chmod 755" "${PROJECT_BINARY_DIR}/debian/prerm")
+
     if(PARSE_PTH)
         set(PYTHON_SITE_PACKAGES "/usr/lib/python3/dist-packages;/usr/lib/python2.7/dist-packages" CACHE STRING "The site packages used for packaging")
         foreach(PYTHON_SITE ${PYTHON_SITE_PACKAGES})
